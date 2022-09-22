@@ -10,7 +10,8 @@ jobs:
   build-infra:
     runs-on: ubuntu-18.04
     steps:
-      echo TERRAFORM COMMANDS i.e. apply on every commit TODO
+      - name: terraform apply 
+        run:  echo TERRAFORM COMMANDS i.e. apply on every commit TODO
 
   build_image_push_to_ECR:
     needs: build-infra
