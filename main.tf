@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region     = "eu-central-1"
+  region     = var.aws_region
 }
 
 
@@ -44,3 +44,92 @@ resource "aws_ecr_repository_policy" "demo-repo-policy" {
   }
   EOF
 }
+
+# Create an S3 Bucket for storing data files
+
+resource "aws_s3_bucket" "zepto-bucket" {
+  bucket              = "123124-zepto-s3-bucket"
+
+  tags = {
+    Name              = "zepto-bucket"
+    Environment       = "Dev"
+  }
+}
+
+# create subdirectory
+
+resource "aws_s3_bucket_object" "prefix" {
+  bucket       = "${aws_s3_bucket.zepto-bucket.id}"
+  key          = "${var.prefix}/"
+  content_type = "application/x-directory"
+}
+
+
+# ACL set to private access
+
+resource "aws_s3_bucket_acl" "zepto-acl" {
+  bucket              = aws_s3_bucket.zepto-bucket.id
+  acl                 = "private"
+}
+
+
+
+# sagemaker IAM role for fullaccess while running notebooks
+
+resource "aws_iam_role" "sagemaker-role" {
+  name                = "sagemaker-role"
+  assume_role_policy  = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "sagemaker.amazonaws.com"
+        }
+      },
+    ]
+  })
+
+  tags = {
+    tag-key = "tag-value"
+  }
+}
+
+# sagemaker IAM policy known as AmazonSageMakerFullAccess
+
+data "aws_iam_policy" "AmazonSageMakerFullAccess" {
+  arn                 = "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
+}
+
+# Attach the policy to role (both created above)
+
+resource "aws_iam_role_policy_attachment" "sagemaker-role-policy-attach" {
+  role                = "${aws_iam_role.sagemaker-role.name}"
+  policy_arn          = "${data.aws_iam_policy.AmazonSageMakerFullAccess.arn}"
+}
+
+# resource "aws_iam_role" "sagemaker-role" {
+#   name = "sagemaker-role"
+
+#   # Terraform's "jsonencode" function converts a
+#   # Terraform expression result to valid JSON syntax.
+#   assume_role_policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Action = "sts:AssumeRole"
+#         Effect = "Allow"
+#         Sid    = ""
+#         Principal = {
+#           Service = "ec2.amazonaws.com"
+#         }
+#       },
+#     ]
+#   })
+
+#   tags = {
+#     tag-key = "tag-value"
+#   }
+# }
