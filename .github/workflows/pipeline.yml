@@ -8,7 +8,7 @@ env:
 
 jobs:
 
-  plan-infra-terraform:
+  build-infra-terraform:
     runs-on: ubuntu-latest
     environment: dev
     steps:
