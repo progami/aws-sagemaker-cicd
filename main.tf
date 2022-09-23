@@ -74,7 +74,7 @@ resource "aws_s3_bucket_object" "output_folder" {
 
 # create the source code directory
 
-resource "aws_s3_bucket_object" "output_folder" {
+resource "aws_s3_bucket_object" "source_folder" {
   bucket       = "${aws_s3_bucket.zepto-bucket.id}"
   key          = "${var.prefix}/source-folders/"
   content_type = "application/x-directory"
