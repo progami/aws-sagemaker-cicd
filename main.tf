@@ -82,12 +82,17 @@ resource "aws_s3_bucket_object" "source_folder" {
 
 ## If you want to copy test/train to s3 from terraform
 
-# resource "aws_s3_bucket_object" "file_upload" {
-#   bucket = "${aws_s3_bucket.zepto-bucket.id}/${var.prefix}/"
-#   key    = "test.csv"
-#   source = "s3/test.csv"
-#   etag   = "s3/my_files.zip"
-# }
+resource "aws_s3_bucket_object" "trainscript_upload" {
+  bucket = "${aws_s3_bucket.zepto-bucket.id}/${var.prefix}/source-folders/"
+  key    = "train.py"
+  source = "train.py"
+}
+
+resource "aws_s3_bucket_object" "servescript_upload" {
+  bucket = "${aws_s3_bucket.zepto-bucket.id}/${var.prefix}/source-folders/"
+  key    = "serve.py"
+  source = "serve.py"
+}
 
 # ACL set to private access
 
