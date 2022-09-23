@@ -8,3 +8,5 @@ COPY serve.py /usr/bin/serve
 RUN chmod 755 /usr/bin/train /usr/bin/serve
 
 EXPOSE 8080
+
+ENTRYPOINT ["python3", "/train.py"]
