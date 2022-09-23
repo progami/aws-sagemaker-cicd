@@ -39,7 +39,7 @@ jobs:
     #   continue-on-error: true
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve -input=false
+      run: terraform apply -input=false -compact-warnings -auto-approve
 
     - name: Sync S3
       uses: jakejarvis/s3-sync-action@master
