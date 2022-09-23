@@ -16,7 +16,7 @@ provider "aws" {
 # 
 resource "aws_ecr_repository" "demo-repository" {
   name                 = "demo-repo"
-  image_tag_mutability = "IMMMUTABLE"
+  image_tag_mutability = "IMMUTABLE"
 }
 # 
 resource "aws_ecr_repository_policy" "demo-repo-policy" {
