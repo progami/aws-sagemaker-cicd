@@ -72,8 +72,6 @@ def update_report_file(metrics_dictionary: dict, hyperparameters: dict,
 # Define main training function
 def main():
     
-    print("INSIDE THE TRAINING SCRIPT")
-
     with open('/opt/ml/input/config/hyperparameters.json', 'r') as json_file:
         hyperparameters = json.load(json_file)
         print(hyperparameters)
