@@ -51,7 +51,7 @@ boston_estimator = Estimator(
              "REGION": REGION,},
 
     tags=[{"Key": "email",
-           "Value": "haythemaws@gmail.com"}])
+           "Value": "jarraramjad@gmail.com"}])
 
 boston_estimator.fit({'training': training_data_s3_uri,
                       'validation': validation_data_s3_uri}, wait=False)
@@ -62,6 +62,7 @@ hyperparameters_dictionary = boston_estimator.hyperparameters()
 
 
 report = pd.read_csv(f's3://{BUCKET_NAME}/{PREFIX}/reports.csv')
+
 while(len(report[report['commit_hash']==GITHUB_SHA]) == 0):
     report = pd.read_csv(f's3://{BUCKET_NAME}/{PREFIX}/reports.csv')
 

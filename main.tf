@@ -56,7 +56,7 @@ resource "aws_s3_bucket" "zepto-bucket" {
   }
 }
 
-# create subdirectory
+# create subdirectory- boston-housing
 
 resource "aws_s3_bucket_object" "prefix" {
   bucket       = "${aws_s3_bucket.zepto-bucket.id}"
@@ -64,6 +64,14 @@ resource "aws_s3_bucket_object" "prefix" {
   content_type = "application/x-directory"
 }
 
+## If you want to copy test/train to s3 from terraform
+
+# resource "aws_s3_bucket_object" "file_upload" {
+#   bucket = "${aws_s3_bucket.zepto-bucket.id}/${var.prefix}/"
+#   key    = "test.csv"
+#   source = "s3/test.csv"
+#   etag   = "s3/my_files.zip"
+# }
 
 # ACL set to private access
 
