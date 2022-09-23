@@ -33,10 +33,10 @@ jobs:
       id: init
       run: terraform init -input=false
 
-    - name: Terraform Plan
-      id: plan
-      run: terraform plan -no-color
-      continue-on-error: true
+    # - name: Terraform Plan
+    #   id: plan
+    #   run: terraform plan -no-color
+    #   continue-on-error: true
 
     - name: Terraform Apply
       run: terraform apply -auto-approve -input=false
