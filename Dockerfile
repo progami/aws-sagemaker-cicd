@@ -8,3 +8,5 @@ COPY serve.py /opt/ml/serve.py
 RUN chmod 755 /opt/ml/train.py /opt/ml/serve.py
 
 EXPOSE 8080
+
+ENTRYPOINT [ "/opt/ml/train.py" ]
