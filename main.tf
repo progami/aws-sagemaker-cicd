@@ -16,7 +16,7 @@ provider "aws" {
 # 
 resource "aws_ecr_repository" "demo-repository" {
   name                 = "demo-repo"
-  image_tag_mutability = "IMMUTABLE"
+  image_tag_mutability = "MUTABLE"
 }
 # 
 resource "aws_ecr_repository_policy" "demo-repo-policy" {
@@ -61,6 +61,12 @@ resource "aws_s3_bucket" "zepto-bucket" {
 resource "aws_s3_bucket_object" "prefix" {
   bucket       = "${aws_s3_bucket.zepto-bucket.id}"
   key          = "${var.prefix}/"
+  content_type = "application/x-directory"
+}
+
+resource "aws_s3_bucket_object" "output_folder" {
+  bucket       = "${aws_s3_bucket.zepto-bucket.id}"
+  key          = "${var.prefix}/output/"
   content_type = "application/x-directory"
 }
 
