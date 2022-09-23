@@ -1,10 +1,12 @@
+
 name: deploy_endpoint
+
 on:
   push:
     branches: [ main ]
 jobs:
   run: 
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     container: docker://dvcorg/cml-py3:latest
     steps:
     - uses: actions/checkout@v2
