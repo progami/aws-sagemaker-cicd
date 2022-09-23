@@ -24,6 +24,7 @@ jobs:
     # check the format of tf file
     - name: Terraform Format
       run: terraform fmt -check
+      continue-on-error: true
 
     - name: Terraform Init
       run: terraform init
