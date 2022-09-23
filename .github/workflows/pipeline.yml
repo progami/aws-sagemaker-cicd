@@ -28,7 +28,7 @@ jobs:
 
     - name: Terraform Init
       run: terraform init
-      working-directory: "./environments/dev"
+      # working-directory: "./environments/dev"
       env:
         GITHUB_TOKEN: ${{ secrets.SAGEMAKER_TOKEN }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
