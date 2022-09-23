@@ -30,6 +30,7 @@ def update_report_file(metrics_dictionary: dict, hyperparameters: dict,
     """
     object_key = f'{prefix}/reports.csv'
 
+
     s3 = boto3.resource('s3')
 
     try:
@@ -70,6 +71,9 @@ def update_report_file(metrics_dictionary: dict, hyperparameters: dict,
 
 # Define main training function
 def main():
+    
+    print("INSIDE THE TRAINING SCRIPT")
+
     with open('/opt/ml/input/config/hyperparameters.json', 'r') as json_file:
         hyperparameters = json.load(json_file)
         print(hyperparameters)
