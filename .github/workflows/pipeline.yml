@@ -34,13 +34,7 @@ jobs:
       continue-on-error: true
 
     - name: Terraform Init
-      run: terraform init
-      # working-directory: "./environments/dev"
-      env:
-        GITHUB_TOKEN: ${{ secrets.SAGEMAKER_TOKEN }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        TF_ACTION_WORKING_DIR: 'terraform'
+      run: terraform init -input=false
     
     - name: Terraform Validate
       run: terraform validate -no-color
