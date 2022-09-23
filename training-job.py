@@ -33,6 +33,8 @@ output_folder_s3_uri = 's3://{}/{}/output/'.format(BUCKET_NAME, PREFIX)
 source_folder = 's3://{}/{}/source-folders'.format(BUCKET_NAME, PREFIX)
 base_job_name = 'boston-housing-model'
 
+print("THE IMAGE URI USED IS:")
+print(f'{ACCOUNT_ID}.dkr.ecr.{REGION}.amazonaws.com/demo-repo:123')
 
 # Define estimator object
 boston_estimator = Estimator(
