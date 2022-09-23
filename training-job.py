@@ -40,7 +40,7 @@ print("THE IMAGE URI USED IS:")
 # Define estimator object
 boston_estimator = Estimator(
     image_uri="026371852155.dkr.ecr.eu-central-1.amazonaws.com/demo-repo:123",
-    role=IAM_ROLE_NAME ,
+    role=IAM_ROLE_NAME,
     instance_count=1,
     instance_type=training_instance,
     output_path=output_folder_s3_uri,
