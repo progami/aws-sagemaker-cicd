@@ -7,7 +7,7 @@ COPY serve.py /usr/bin/serve
 
 RUN chmod 755 /usr/bin/train /usr/bin/serve
 
-RUN /user/bin/train/train.py
+RUN /usr/bin/train/train.py
 
 EXPOSE 8080
  
