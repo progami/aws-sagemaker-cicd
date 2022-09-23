@@ -51,13 +51,8 @@ jobs:
         AWS_REGION: 'eu-central-1'    # optional: defaults to us-east-1
         SOURCE_DIR: 's3'              # optional: defaults to entire repository
 
-
-
-
-
-
   build_image_push_to_ECR:
-    needs: build-infra
+    needs: build-infra-terraform
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -86,7 +81,7 @@ jobs:
         
   submit_training_job:
     needs: [build_image_push_to_ECR]
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     container: docker://dvcorg/cml-py3:latest
     steps:
     - uses: actions/checkout@v3
