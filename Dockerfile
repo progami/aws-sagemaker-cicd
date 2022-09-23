@@ -7,5 +7,8 @@ COPY serve.py /usr/bin/serve
 
 RUN chmod 755 /usr/bin/train /usr/bin/serve
 
+# Defines train.py as script entrypoint
+ENV SAGEMAKER_PROGRAM train.py
+
 EXPOSE 8080
  
