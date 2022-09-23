@@ -48,7 +48,7 @@ resource "aws_ecr_repository_policy" "demo-repo-policy" {
 # Create an S3 Bucket for storing data files
 
 resource "aws_s3_bucket" "zepto-bucket" {
-  bucket              = "1231245-zepto-s3-bucket"
+  bucket              = "123124-zepto-s3-bucket"
 
   tags = {
     Name              = "zepto-bucket"
