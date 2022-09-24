@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from datetime import datetime, timezone
+import json
 import requests
 import os
 import pandas as pd
@@ -10,6 +12,8 @@ import boto3
 import s3fs
 
 session = sagemaker.Session(boto3.session.Session())
+s3 = boto3.resource('s3')
+
 
 BUCKET_NAME = os.environ['BUCKET_NAME']
 PREFIX = os.environ['PREFIX']
@@ -60,6 +64,20 @@ boston_estimator.fit({'training': training_data_s3_uri,
 
 training_job_name = boston_estimator.latest_training_job.name
 hyperparameters_dictionary = boston_estimator.hyperparameters()
+
+
+date_time = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+# Add new row
+new_row = dict({'date_time': date_time, 'hyperparameters': json.dumps('4'),
+'commit_hash': GITHUB_SHA,'training_job_name': training_job_name})
+
+new_report = pd.DataFrame(new_row, index=[0])
+new_report = new_report.append(new_report)
+
+# Upload new reports dataframe
+new_report.to_csv('./reports.csv', index=False)
+
+s3.meta.client.upload_file('./reports.csv', BUCKET_NAME, 'reports.csv')
 
 # report = pd.read_csv(f's3://{BUCKET_NAME}/{PREFIX}/reports.csv')
 
