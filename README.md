@@ -10,5 +10,5 @@
 - AWS Step Functions // CodePipeline - Orchestrate workflow and Visualize CI/CD Pipeline *“Expose relevant API and services for so data to be easily consumed by business applications, including the Dashboard platform, industrialized Data Science platforms, business user tools, and external applications, by providing Data Marts, APIs, and a Publish and Subscribe service.”*
 
 
-![3d][assets/3d.png]
-![2d][assets/2d.png]
+![3d](assets/3d.png)
+![2d](assets/2d.png)
