@@ -73,7 +73,18 @@ def send_mail(recipient: str,
     # client = session.client('ses')
         
     sns = boto3.client("sns", region_name=REGION)
-    message = "hi"
+    message = {
+                'Body': {
+                    'Html': {
+                        'Charset': encoding,
+                        'Data': html_body,
+                    }
+                },
+                'Subject': {
+                    'Charset': encoding,
+                    'Data': subject,
+                }
+            }
 
     response = sns.publish(
     TargetArn=SNS_TOPIC_ARN,
