@@ -37,7 +37,7 @@ print(f'{ACCOUNT_ID}.dkr.ecr.{REGION}.amazonaws.com/demo-repo:123')
 
 # Define estimator object
 boston_estimator = Estimator(
-    image_uri=f'{ACCOUNT_ID}.dkr.ecr.{REGION}.amazonaws.com/demo-',
+    image_uri=f'{ACCOUNT_ID}.dkr.ecr.{REGION}.amazonaws.com/demo-repo:{GITHUB_SHA}',
     role=IAM_ROLE_NAME,
     instance_count=1,
     instance_type=training_instance,
