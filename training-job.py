@@ -75,10 +75,10 @@ new_report = pd.DataFrame(new_row, index=[0])
 
 # Upload new reports dataframe
 new_report.to_csv('./reports.csv', index=False)
-
 print(new_report)
 
 s3.meta.client.upload_file('./reports.csv', f'{BUCKET_NAME}', f'{PREFIX}/reports.csv')
+print('upload output to s3')
 
 # report = pd.read_csv(f's3://{BUCKET_NAME}/{PREFIX}/reports.csv')
 
