@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import json
 import boto3
@@ -87,7 +88,7 @@ def send_mail(recipient: str,
 
     response = sns.publish(
     TargetArn=SNS_TOPIC_ARN,
-    Subject=("ML Model Reports.CSV updated in S3 at {}"),
+    Subject=("ML Model Reports.CSV updated in S3 at {}".format(datetime.now())),
     Message=(message)
     )
 
