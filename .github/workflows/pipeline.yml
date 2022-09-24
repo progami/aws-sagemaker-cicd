@@ -7,18 +7,64 @@ env:
   APPLICATION_NAME: startupapp
 
 jobs:
+
+  build-infra-terraform:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-central-1
+
+    # Install the latest version of Terraform CLI
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.3.0
+
+    - name: Terraform Init
+      id: init
+      run: terraform init -input=false
+
+    # - name: Terraform Plan
+    #   id: plan
+    #   run: terraform plan -no-color
+    #   continue-on-error: true
+
+    - name: Terraform Apply
+      run: terraform apply -input=false -compact-warnings -auto-approve
+
+    - name: Sync S3
+      uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks --delete
+      env:
+        AWS_S3_BUCKET: ${{ format('{0}/{1}', secrets.BUCKET_NAME, secrets.PREFIX) }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'eu-central-1'    # optional: defaults to us-east-1
+        SOURCE_DIR: 's3/'              # optional: defaults to entire repository
+
   build_image_push_to_ECR:
-    runs-on: ubuntu-18.04
+    needs: build-infra-terraform
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     # see: https://github.com/aws-actions/configure-aws-credentials
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+        aws-region: eu-central-1
 
     # see: https://github.com/aws-actions/amazon-ecr-login
     - name: Log in to Amazon ECR
@@ -27,23 +73,23 @@ jobs:
 
     - name: Build, tag, and push image to Amazon ECR
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: ${{ secrets.REPO_NAME }}
         IMAGE_TAG: latest
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
         
   submit_training_job:
     needs: [build_image_push_to_ECR]
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     container: docker://dvcorg/cml-py3:latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Fire SageMaker
       id: sm_train
       env:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        repo_token: ${{ secrets.SAGEMAKER_TOKEN }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
