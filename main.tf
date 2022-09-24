@@ -186,7 +186,7 @@ EOF
 resource "aws_lambda_function" "lambda_push" {
   function_name    = "lambda_push"
   role             = aws_iam_role.lambda_iam.arn
-  handler          = "src/lambda_push.lambda_handler"
+  handler          = "lambda_push.lambda_handler"
   runtime          = "python3.9"
   timeout          = 5
   filename         = "src.zip"
