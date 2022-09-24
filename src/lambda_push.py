@@ -5,7 +5,8 @@ import boto3
 SENDER_EMAIL = os.environ["SENDER_EMAIL"]
 RECEIVER_EMAIL = os.environ["RECEIVER_EMAIL"]
 SUBJECT = "S3 Event Notification"
-
+REGION = os.environ["region"]
+SNS_TOPIC_ARN = os.environ["SNS_ARN"]
 
 def lambda_handler(event, context):
     """
@@ -67,21 +68,42 @@ def send_mail(recipient: str,
         html_body (str): HTML body
     """
 
-    session = boto3.session.Session()
-    client = session.client('ses')
+    # session = boto3.session.Session()
+    # client = session.client('ses')
+        
+    sns = boto3.client("sns", region_name=REGION)
+    message = {
+                'Body': {
+                    'Html': {
+                        'Charset': encoding,
+                        'Data': html_body,
+                    }
+                },
+                'Subject': {
+                    'Charset': encoding,
+                    'Data': subject,
+                },
+            }
 
-    response = client.send_email(Destination={'ToAddresses': [recipient]},
-                                 Message={
-                                     'Body': {
-                                         'Html': {
-                                             'Charset': encoding,
-                                             'Data': html_body,
-                                         }
-                                     },
-                                     'Subject': {
-                                         'Charset': encoding,
-                                         'Data': subject,
-                                     },
-                                 },
-                                 Source=sender)
-    return response
+    response = sns.publish(
+    TargetArn=SNS_TOPIC_ARN,
+    Subject=("ML Model Reports.CSV updated in S3 at {}"),
+    Message=(message)
+    )
+
+
+    # response = client.send_email(Destination={'ToAddresses': [recipient]},
+    #                              Message={
+    #                                  'Body': {
+    #                                      'Html': {
+    #                                          'Charset': encoding,
+    #                                          'Data': html_body,
+    #                                      }
+    #                                  },
+    #                                  'Subject': {
+    #                                      'Charset': encoding,
+    #                                      'Data': subject,
+    #                                  },
+    #                              },
+    #                              Source=sender)
+    # return response

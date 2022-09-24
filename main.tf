@@ -172,7 +172,8 @@ resource "aws_iam_role_policy" "revoke_keys_role_policy" {
     {
       "Action": [
         "s3:*",
-        "ses:*"
+        "ses:*",
+        "sns:*"
       ],
       "Effect": "Allow",
       "Resource": "*"
@@ -193,9 +194,11 @@ resource "aws_lambda_function" "lambda_push" {
   source_code_hash = filebase64sha256("src.zip")
   environment {
     variables = {
-      env            = "dev"
-      SENDER_EMAIL   = "jarraramjad@gmail.com"
-      RECEIVER_EMAIL = "jarraramjad@gmail.com"
+      env             = "dev"
+      SENDER_EMAIL    = "jarraramjad@gmail.com"
+      RECEIVER_EMAIL  = "jarraramjad@gmail.com"
+      region          = var.aws_region
+      SNS_ARN         = aws_sns_topic.topic.arn
     }
   }
 }
@@ -217,4 +220,16 @@ resource "aws_lambda_permission" "test" {
   function_name = aws_lambda_function.lambda_push.function_name
   principal     = "s3.amazonaws.com"
   source_arn    = "arn:aws:s3:::${aws_s3_bucket.zepto-bucket.id}"
+}
+
+###############################SNS Topic###############################
+
+resource "aws_sns_topic" "topic" {
+  name = "email_service"
+}
+
+resource "aws_sns_topic_subscription" "email-target" {
+  topic_arn = aws_sns_topic.topic.arn
+  protocol  = "email"
+  endpoint  = "jarraramjad@gmail.com"
 }
