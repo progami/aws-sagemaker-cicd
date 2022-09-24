@@ -108,7 +108,7 @@ resource "aws_s3_bucket_acl" "zepto-acl" {
 
 # sagemaker IAM role for fullaccess while running notebooks
 resource "aws_iam_role" "sagemaker-role" {
-  name                = "sagemaker-role"
+  name                = "sagemaker-role-tf"
   assume_role_policy  = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -143,7 +143,7 @@ resource "aws_iam_role_policy_attachment" "sagemaker-role-policy-attach" {
 
 # Creating Lambda IAM resource / role
 resource "aws_iam_role" "lambda_iam" {
-  name = "lambda_push_role"
+  name = "lambda_push_role_tf"
 
   assume_role_policy = <<EOF
 {
