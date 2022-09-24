@@ -32,6 +32,10 @@ except botocore.exceptions.ClientError as e:
 
 print(reports_df)
 
+# add code for lambda / api gateway for accessing data in s3, sns to inform 
+
+
+
 # reports_df['date_time'] = pd.to_datetime(reports_df['date_time'], format='%Y-%m-%d %H:%M:%S')
 # latest_training_job_name = reports_df.sort_values(['date_time'], ascending=False).training_job_name.values[0]
 # attached_estimator = Estimator.attach(latest_training_job_name)
