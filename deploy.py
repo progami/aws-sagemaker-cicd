@@ -32,8 +32,7 @@ except botocore.exceptions.ClientError as e:
 
 print(reports_df)
 
-# add code for lambda / api gateway for accessing data in s3, sns to inform 
-
+# on success of merge request, call lambda to send email to user - do not need a s3 trigger
 
 
 # reports_df['date_time'] = pd.to_datetime(reports_df['date_time'], format='%Y-%m-%d %H:%M:%S')
