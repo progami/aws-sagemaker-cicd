@@ -38,7 +38,7 @@ except botocore.exceptions.ClientError as e:
 # Post: Need the Sagemaker Endpoint for custom payloads
 
 message = f"You may now access the deployed output via the \
-HTTP GET method: {https://ls86fz3gfc.execute-api.eu-central-1.amazonaws.com/results}"
+HTTP GET method: https://ls86fz3gfc.execute-api.eu-central-1.amazonaws.com/results"
 
 print(message)
 
