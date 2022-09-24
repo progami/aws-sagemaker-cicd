@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 import json
 import requests
 import os
+import random
 import pandas as pd
 
 from sagemaker.analytics import TrainingJobAnalytics
@@ -68,7 +69,7 @@ hyperparameters_dictionary = boston_estimator.hyperparameters()
 
 date_time = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 # Add new row
-new_row = dict({'date_time': date_time, 'hyperparameters': json.dumps('4'),
+new_row = dict({'date_time': date_time, 'hyperparameters': json.dumps(random.randint(0, 100)),
 'commit_hash': GITHUB_SHA,'training_job_name': training_job_name})
 
 new_report = pd.DataFrame(new_row, index=[0])
@@ -96,7 +97,8 @@ message = (f"## Training Job Submission Report\n\n"
             "See the Logs in a few minute at: "
            f"[CloudWatch](https://{REGION}.console.aws.amazon.com/cloudwatch/home?region={REGION}#logStream:group=/aws/sagemaker/TrainingJobs;prefix={training_job_name})\n\n"
             "If you merge this pull request the resulting endpoint will be avaible this URL:\n\n"
-           f"'https://runtime.sagemaker.{REGION}.amazonaws.com/endpoints/{training_job_name}/invocations'\n\n"
+           f"https://runtime.sagemaker.{REGION}.amazonaws.com/endpoints/{training_job_name}/invocations'\n\n"
+           f"API GATEWAY ENDPOINT: get-abc"
            f"## Training Job Performance Report\n\n"
         #    f"{metrics_dataframe.to_markdown(index=False)}\n\n"
           )
