@@ -108,7 +108,7 @@ resource "aws_s3_bucket_acl" "zepto-acl" {
 
 # sagemaker IAM role for fullaccess while running notebooks
 resource "aws_iam_role" "sagemaker-role" {
-  name                = "sagemaker-role-tf"
+  name                = "sagemaker_role_tf"
   assume_role_policy  = jsonencode({
     Version = "2012-10-17"
     Statement = [
