@@ -34,7 +34,9 @@ print(reports_df)
 
 # Lambda auto triggered by actions when merge request is approved
 
-# create API Gateway endpoint to serve the reports_df against a post
+# create API Gateway endpoint to serve the reports_df
+# Get:  Fetch Latest Reports.csv from S3 and return it
+# Post: Need the Sagemaker Endpoint for custom payloads
 
 
 # reports_df['date_time'] = pd.to_datetime(reports_df['date_time'], format='%Y-%m-%d %H:%M:%S')

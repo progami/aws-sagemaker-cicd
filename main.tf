@@ -233,3 +233,6 @@ resource "aws_sns_topic_subscription" "email-target" {
   protocol  = "email"
   endpoint  = "jarraramjad@gmail.com"
 }
+
+###############################API GATEWAY###############################
+
