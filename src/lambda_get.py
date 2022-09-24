@@ -18,7 +18,7 @@ def lambda_handler(event, context):
             "Content-type": "text/html",
             "Content-Disposition": "attachment; filename={}".format(FILE_NAME)
         },
-        "body": json.dumps(file_content)
+        "body": file_content
     }
         # return {
         #     'headers': { "Content-type": "text/html" },
