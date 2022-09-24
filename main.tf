@@ -195,7 +195,7 @@ resource "aws_lambda_function" "lambda_push" {
     variables = {
       env            = "dev"
       SENDER_EMAIL   = "jarraramjad@gmail.com"
-      RECEIVER_EMAIL = "jarrarammaramz@gmail.com"
+      RECEIVER_EMAIL = "jarraramjad@gmail.com"
     }
   }
 }
