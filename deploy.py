@@ -30,7 +30,6 @@ except botocore.exceptions.ClientError as e:
        else:
               raise
 
-print(reports_df)
 
 # Lambda auto triggered by actions when merge request is approved
 
@@ -38,6 +37,13 @@ print(reports_df)
 # Get:  Fetch Latest Reports.csv from S3 and return it
 # Post: Need the Sagemaker Endpoint for custom payloads
 
+message = f"You may now access the deployed output via the \
+HTTP GET method: {https://ls86fz3gfc.execute-api.eu-central-1.amazonaws.com/results}"
+
+print(message)
+
+with open('details.txt', 'w') as outfile:
+    outfile.write(message)
 
 # reports_df['date_time'] = pd.to_datetime(reports_df['date_time'], format='%Y-%m-%d %H:%M:%S')
 # latest_training_job_name = reports_df.sort_values(['date_time'], ascending=False).training_job_name.values[0]
