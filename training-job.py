@@ -78,7 +78,7 @@ new_report.to_csv('./reports.csv', index=False)
 
 print(new_report)
 
-s3.meta.client.upload_file('./reports.csv', f'{PREFIX}/{BUCKET_NAME}, 'reports.csv')
+s3.meta.client.upload_file('./reports.csv', f'{PREFIX}/{BUCKET_NAME}', 'reports.csv')
 
 # report = pd.read_csv(f's3://{BUCKET_NAME}/{PREFIX}/reports.csv')
 

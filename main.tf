@@ -54,6 +54,7 @@ resource "aws_s3_bucket" "zepto-bucket" {
     Name              = "zepto-bucket"
     Environment       = "Dev"
   }
+  force_destroy = true
 }
 
 # create subdirectory- boston-housing
@@ -62,6 +63,7 @@ resource "aws_s3_bucket_object" "prefix" {
   bucket       = "${aws_s3_bucket.zepto-bucket.id}"
   key          = "${var.prefix}/"
   content_type = "application/x-directory"
+  force_destroy = true
 }
 
 # create the output folder
@@ -70,6 +72,7 @@ resource "aws_s3_bucket_object" "output_folder" {
   bucket       = "${aws_s3_bucket.zepto-bucket.id}"
   key          = "${var.prefix}/output/"
   content_type = "application/x-directory"
+  force_destroy = true
 }
 
 # create the source code directory
@@ -78,6 +81,7 @@ resource "aws_s3_bucket_object" "source_folder" {
   bucket       = "${aws_s3_bucket.zepto-bucket.id}"
   key          = "${var.prefix}/source-folders/"
   content_type = "application/x-directory"
+  force_destroy = true
 }
 
 ## If you want to copy test/train to s3 from terraform
@@ -86,12 +90,14 @@ resource "aws_s3_bucket_object" "trainscript_upload" {
   bucket = "${aws_s3_bucket.zepto-bucket.id}/${var.prefix}/source-folders/"
   key    = "train.py"
   source = "train.py"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_object" "servescript_upload" {
   bucket = "${aws_s3_bucket.zepto-bucket.id}/${var.prefix}/source-folders/"
   key    = "serve.py"
   source = "serve.py"
+  force_destroy = true
 }
 
 # ACL set to private access
