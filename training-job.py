@@ -72,10 +72,11 @@ new_row = dict({'date_time': date_time, 'hyperparameters': json.dumps('4'),
 'commit_hash': GITHUB_SHA,'training_job_name': training_job_name})
 
 new_report = pd.DataFrame(new_row, index=[0])
-new_report = new_report.append(new_report)
 
 # Upload new reports dataframe
 new_report.to_csv('./reports.csv', index=False)
+
+print(new_report)
 
 s3.meta.client.upload_file('./reports.csv', BUCKET_NAME, 'reports.csv')
 
