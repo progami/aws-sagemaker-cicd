@@ -28,7 +28,7 @@ jobs:
       with:
         files: src/
         dest: src.zip
-
+        
     # Install the latest version of Terraform CLI
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2

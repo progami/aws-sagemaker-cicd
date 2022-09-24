@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 import json
 import requests
 import os
+import random
 import pandas as pd
 
 from sagemaker.analytics import TrainingJobAnalytics
@@ -68,7 +69,7 @@ hyperparameters_dictionary = boston_estimator.hyperparameters()
 
 date_time = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 # Add new row
-new_row = dict({'date_time': date_time, 'hyperparameters': json.dumps('4'),
+new_row = dict({'date_time': date_time, 'hyperparameters': json.dumps(random.randint(0, 100)),
 'commit_hash': GITHUB_SHA,'training_job_name': training_job_name})
 
 new_report = pd.DataFrame(new_row, index=[0])
