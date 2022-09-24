@@ -34,12 +34,10 @@ source_folder = 's3://{}/{}/source-folders'.format(BUCKET_NAME, PREFIX)
 base_job_name = 'boston-housing-model'
 
 print(f'{ACCOUNT_ID}.dkr.ecr.{REGION}.amazonaws.com/demo-repo:123')
-print("THE IMAGE URI USED IS:")
-
 
 # Define estimator object
 boston_estimator = Estimator(
-    image_uri="026371852155.dkr.ecr.eu-central-1.amazonaws.com/demo-repo:123",
+    image_uri=f'{ACCOUNT_ID}.dkr.ecr.{REGION}.amazonaws.com/demo-',
     role=IAM_ROLE_NAME,
     instance_count=1,
     instance_type=training_instance,
@@ -62,9 +60,6 @@ boston_estimator.fit({'training': training_data_s3_uri,
 
 training_job_name = boston_estimator.latest_training_job.name
 hyperparameters_dictionary = boston_estimator.hyperparameters()
-
-
-
 
 # report = pd.read_csv(f's3://{BUCKET_NAME}/{PREFIX}/reports.csv')
 
