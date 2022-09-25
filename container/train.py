@@ -116,12 +116,16 @@ def main():
     X_val, y_val = validation_data.iloc[:,
                                         1:].values, validation_data.iloc[:, :1].values
 
-    s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs.txt')
 
     # Fit the model
     n_estimators = int(hyperparameters['nestimators'])
     model = RandomForestRegressor(n_estimators=n_estimators)
     model.fit(X_train, y_train)
+    
+    with open("docker_logs.txt", "a") as log_file:
+        log_file.write(f"Model Fitting Done \n")
+
+    s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs.txt')
 
     # Evaluate model
     train_mse = mean_squared_error(model.predict(X_train), y_train)
@@ -133,6 +137,11 @@ def main():
 
     print(metrics_dictionary)
     
+    with open("docker_logs.txt", "a") as log_file:
+        log_file.write(f"metricsDict:\n {metrics_dictionary} \n")
+
+    s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs.txt')
+
     # Save the model
     model_path = '/opt/ml/model'
     model_path_full = os.path.join(model_path, 'model.joblib')
