@@ -133,10 +133,20 @@ data "aws_iam_policy" "AmazonSageMakerFullAccess" {
   arn                 = "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
 }
 
+# sagemaker IAM policy known as AmazonSageMakerFullAccess
+data "aws_iam_policy" "AmzSageMakerS3Access" {
+  arn                 = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
 # Attach the policy to role (both created above)
 resource "aws_iam_role_policy_attachment" "sagemaker-role-policy-attach" {
+  for_each = toset([
+    "${data.aws_iam_policy.AmazonSageMakerFullAccess.arn}",
+    "${data.aws_iam_policy.AmzSageMakerS3Access.arn}"
+  ])
+
   role                = "${aws_iam_role.sagemaker-role.name}"
-  policy_arn          = "${data.aws_iam_policy.AmazonSageMakerFullAccess.arn}"
+  policy_arn          = each.value
 }
 
 ###############################LAMBDA###############################
