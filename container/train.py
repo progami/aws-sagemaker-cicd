@@ -147,10 +147,16 @@ def main():
     model_path_full = os.path.join(model_path, 'model.joblib')
     joblib.dump(model, model_path_full)
 
-    
+    with open("docker_logs.txt", "a") as log_file:
+        print(f"NOERROR - METRICS DICT:\n {metrics_dictionary}")
+    s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs.txt')
 
     update_report_file(metrics_dictionary=metrics_dictionary, hyperparameters=hyperparameters,
                        commit_hash=GITHUB_SHA, training_job_name=TRAINING_JOB_NAME, prefix=PREFIX, bucket_name=BUCKET_NAME)
+
+    with open("docker_logs.txt", "a") as log_file:
+        print(f"reports.csv has been updated\n")
+    s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs.txt')
 
 if __name__ == '__main__':
     main()
