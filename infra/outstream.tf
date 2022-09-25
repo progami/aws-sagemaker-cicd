@@ -1,4 +1,3 @@
-
 ###############################LAMBDA###############################
 
 # Creating Lambda IAM resource / role
