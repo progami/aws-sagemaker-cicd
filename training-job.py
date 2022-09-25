@@ -25,7 +25,7 @@ GITHUB_SHA = os.environ['GITHUB_SHA']
 ACCOUNT_ID = session.boto_session.client(
     'sts').get_caller_identity()['Account']
 # Replace with your desired training instance
-training_instance = 'ml.m5.large'
+training_instance = 'ml.t3.medium'
 
 # Replace with your data s3 path - upload data to s3 before
 training_data_s3_uri = 's3://{}/{}/boston-housing-training.csv'.format(
