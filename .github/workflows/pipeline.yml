@@ -44,16 +44,16 @@ jobs:
     - name: Terraform Apply
       run: cd infra && terraform apply -input=false -compact-warnings -auto-approve
 
-    # - name: Sync S3
-    #   uses: jakejarvis/s3-sync-action@master
-    #   with:
-    #     args: --acl public-read --follow-symlinks --delete
-    #   env:
-    #     AWS_S3_BUCKET: ${{ format('{0}/{1}', secrets.BUCKET_NAME, secrets.PREFIX) }}
-    #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     AWS_REGION: 'eu-central-1'    # optional: defaults to us-east-1
-    #     SOURCE_DIR: 's3/'              # optional: defaults to entire repository
+    - name: Sync S3
+      uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks --delete
+      env:
+        AWS_S3_BUCKET: ${{ format('{0}/{1}', secrets.BUCKET_NAME, secrets.PREFIX) }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'eu-central-1'    # optional: defaults to us-east-1
+        SOURCE_DIR: 's3/'              # optional: defaults to entire repository
 
   build_image_push_to_ECR:
     needs: build-infra-terraform
