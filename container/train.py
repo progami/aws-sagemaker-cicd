@@ -96,7 +96,7 @@ def main():
         resourceconfig = json.load(json_file)
 
     with open("docker_logs.txt", "a") as log_file:
-        log_file.write(f"Hyper:\n {hyperparameters}\n inputConfig:\n {inputdataconfig}\n resConfig:\n {resourceconfig}")
+        log_file.write(f"Hyper:\n {hyperparameters}\n inputConfig:\n {inputdataconfig}\n resConfig:\n {resourceconfig}\n")
 
     # Load Data
     training_data_path = '/opt/ml/input/data/training'
