@@ -12,3 +12,11 @@
 
 ![3d](assets/3d.png)
 ![2d](assets/2d.png)
+
+
+# Issues:
+
+1. API gateway multiple instances
+2. API gateway for get/post
+3. SNS for push to many notifications
+4. add redshift/kinesis support

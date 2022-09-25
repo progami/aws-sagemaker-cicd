@@ -32,7 +32,8 @@ resource "aws_iam_role_policy" "revoke_keys_role_policy" {
       "Action": [
         "s3:*",
         "ses:*",
-        "sns:*"
+        "sns:*",
+        "sagemaker:*"
       ],
       "Effect": "Allow",
       "Resource": "*"
@@ -71,6 +72,12 @@ resource "aws_lambda_function" "lambda_get" {
   timeout                     = 5
   filename                    = "src.zip"
   source_code_hash            = filebase64sha256("src.zip")
+
+  environment {
+    variables = {
+      BUCKET_NAME = aws_s3_bucket.zepto-bucket.bucket
+    }
+  }
 }
 
 # Adding S3 bucket as trigger to my lambda and giving the permissions

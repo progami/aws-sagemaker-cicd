@@ -80,20 +80,3 @@ def send_mail(recipient: str,
     Subject=("ML Model Reports.CSV updated in S3 at {}".format(datetime.now())),
     Message=(message)
     )
-
-
-    # response = client.send_email(Destination={'ToAddresses': [recipient]},
-    #                              Message={
-    #                                  'Body': {
-    #                                      'Html': {
-    #                                          'Charset': encoding,
-    #                                          'Data': html_body,
-    #                                      }
-    #                                  },
-    #                                  'Subject': {
-    #                                      'Charset': encoding,
-    #                                      'Data': subject,
-    #                                  },
-    #                              },
-    #                              Source=sender)
-    # return response
