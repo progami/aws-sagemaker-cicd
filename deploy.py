@@ -40,6 +40,6 @@ attached_predictor = attached_estimator.deploy(initial_instance_count=initial_in
                                                instance_type=endpoint_instance_type,
                                                endpoint_name=latest_training_job_name,
                                                tags=[{"Key": "email",
-                                                      "Value": "ali@datachef.co"}],
+                                                      "Value": "jarraramjad@gmail.com"}],
                                                wait=False)
 print(attached_predictor.endpoint_name)
