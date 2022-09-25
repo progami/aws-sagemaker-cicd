@@ -115,7 +115,6 @@ def main():
     with open("docker_logs.txt", "a") as log_file:
         log_file.write(f"Training Data\n{training_data}\n Validation Data\n{validation_data}\n")
 
-    s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs_s3.txt')
 
     X_train, y_train = training_data.iloc[:,
                                           1:].values, training_data.iloc[:, :1].values
@@ -136,13 +135,16 @@ def main():
     metrics_dataframe = pd.DataFrame(metrics_dictionary, index=[0])
 
     print(metrics_dictionary)
-    
+
     # Save the model
     model_path = '/opt/ml/model'
     model_path_full = os.path.join(model_path, 'model.joblib')
     joblib.dump(model, model_path_full)
 
-    
+    with open("docker_logs.txt", "a") as log_file:
+        log_file.write(f"Metrics:\n {metrics_dictionary}")
+        
+    s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs_s3.txt')
 
     update_report_file(metrics_dictionary=metrics_dictionary, hyperparameters=hyperparameters,
                        commit_hash=GITHUB_SHA, training_job_name=TRAINING_JOB_NAME, prefix=PREFIX, bucket_name=BUCKET_NAME)
