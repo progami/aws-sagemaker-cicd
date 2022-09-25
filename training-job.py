@@ -19,7 +19,6 @@ REGION = os.environ['AWS_DEFAULT_REGION']
 # Replace with your IAM role arn that has enough access (e.g. SageMakerFullAccess)
 IAM_ROLE_NAME = "arn:aws:iam::026371852155:role/sagemaker_role_tf"
 
-
 GITHUB_SHA = os.environ['GITHUB_SHA']
 ACCOUNT_ID = session.boto_session.client(
     'sts').get_caller_identity()['Account']
@@ -36,7 +35,6 @@ validation_data_s3_uri = 's3://{}/{}/boston-housing-validation.csv'.format(
 output_folder_s3_uri = 's3://{}/{}/output/'.format(BUCKET_NAME, PREFIX)
 source_folder = 's3://{}/{}/source-folders'.format(BUCKET_NAME, PREFIX)
 base_job_name = 'boston-housing-model'
-
 
 # Define estimator object
 boston_estimator = Estimator(
@@ -55,11 +53,10 @@ boston_estimator = Estimator(
              "REGION": REGION,},
 
     tags=[{"Key": "email",
-           "Value": "haythemaws@gmail.com"}])
+           "Value": "jarraramjad@gmail.com"}])
 
 boston_estimator.fit({'training': training_data_s3_uri,
                       'validation': validation_data_s3_uri}, wait=False)
-
 
 training_job_name = boston_estimator.latest_training_job.name
 hyperparameters_dictionary = boston_estimator.hyperparameters()
@@ -67,7 +64,7 @@ hyperparameters_dictionary = boston_estimator.hyperparameters()
 try:
     report = pd.read_csv(f's3://{BUCKET_NAME}/{PREFIX}/reports.csv')
 except:
-    time.sleep(230)
+    time.sleep(300)
     report = pd.read_csv(f's3://{BUCKET_NAME}/{PREFIX}/reports.csv')
 
 while(len(report[report['commit_hash']==GITHUB_SHA]) == 0):
@@ -88,6 +85,7 @@ message = (f"## Training Job Submission Report\n\n"
            f"## Training Job Performance Report\n\n"
            f"{metrics_dataframe.to_markdown(index=False)}\n\n"
           )
+
 print(message)
 
 # Write metrics to file
