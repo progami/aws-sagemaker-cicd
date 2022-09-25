@@ -28,7 +28,7 @@ jobs:
     - name: Zip src files for lambda
       uses: vimtor/action-zip@v1
       with:
-        files: src/
+        files: infra/src/
         dest: src.zip
         
     # Install the latest version of Terraform CLI

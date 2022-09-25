@@ -43,3 +43,5 @@ attached_predictor = attached_estimator.deploy(initial_instance_count=initial_in
                                                       "Value": "jarraramjad@gmail.com"}],
                                                wait=False)
 print(attached_predictor.endpoint_name)
+
+attached_predictor.predict()
