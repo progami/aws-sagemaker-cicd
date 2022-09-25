@@ -36,7 +36,7 @@ base_job_name = 'boston-housing-model'
 
 # Define estimator object
 boston_estimator = Estimator(
-    image_uri=f'{ACCOUNT_ID}.dkr.ecr.{REGION}.amazonaws.com/my-app:latest',
+    image_uri=f'{ACCOUNT_ID}.dkr.ecr.{REGION}.amazonaws.com/demo-repo:latest',
     role=IAM_ROLE_NAME ,
     instance_count=1,
     instance_type=training_instance,
