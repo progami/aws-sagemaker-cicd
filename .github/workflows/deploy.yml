@@ -16,6 +16,8 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+        PREFIX: ${{ secrets.PREFIX }}
       run: |
         pip install --no-cache-dir --upgrade awscli pandas boto3 sagemaker requests
         python deploy.py
