@@ -144,3 +144,5 @@ cython_debug/
 .terraform.lock.hcl
 .terraform
 terraform.tfstate.backup
+
+local_test.py

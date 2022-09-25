@@ -2,7 +2,9 @@ name: Pipeline
 
 on:
   push:
-    branches: [ dev ]
+    branches:
+    - dev
+    - dev-2
 env:
   APPLICATION_NAME: startupapp
 
@@ -37,15 +39,10 @@ jobs:
 
     - name: Terraform Init
       id: init
-      run: terraform init -input=false
-
-    # - name: Terraform Plan
-    #   id: plan
-    #   run: terraform plan -no-color
-    #   continue-on-error: true
+      run: cd infra && terraform init -input=false
 
     - name: Terraform Apply
-      run: terraform apply -input=false -compact-warnings -auto-approve
+      run: cd infra && terraform apply -input=false -compact-warnings -auto-approve
 
     - name: Sync S3
       uses: jakejarvis/s3-sync-action@master
@@ -83,7 +80,7 @@ jobs:
         REPOSITORY: ${{ secrets.REPO_NAME }}
         IMAGE_TAG: latest
       run: |
-        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+        cd container && docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
         
   submit_training_job:
