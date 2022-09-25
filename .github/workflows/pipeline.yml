@@ -25,12 +25,18 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-central-1
 
-    - name: Zip src files for lambda
+    - name: lambda#1 zipping
       uses: vimtor/action-zip@v1
       with:
-        files: infra/src/
-        dest: src.zip
+        files: infra/src/lambda_get.py
+        dest: lambda_get.zip
         
+    - name: lambda#2 zipping
+      uses: vimtor/action-zip@v1
+      with:
+        files: infra/src/lambda_push.py
+        dest: lambda_push.zip
+
     # Install the latest version of Terraform CLI
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
