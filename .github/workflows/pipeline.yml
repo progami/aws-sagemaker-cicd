@@ -81,7 +81,7 @@ jobs:
         IMAGE_TAG: latest
       run: |
         cd container && docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-        cd container && docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
         
   submit_training_job:
     needs: [build_image_push_to_ECR]
