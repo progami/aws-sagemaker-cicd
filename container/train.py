@@ -88,15 +88,12 @@ def main():
 
     with open('/opt/ml/input/config/hyperparameters.json', 'r') as json_file:
         hyperparameters = json.load(json_file)
-        print(hyperparameters)
 
     with open('/opt/ml/input/config/inputdataconfig.json', 'r') as json_file:
         inputdataconfig = json.load(json_file)
-    print(inputdataconfig)
 
     with open('/opt/ml/input/config/resourceconfig.json', 'r') as json_file:
         resourceconfig = json.load(json_file)
-    print(resourceconfig)
 
     with open("docker_logs.txt", "a") as log_file:
         log_file.write(f"Hyper:\n {hyperparameters}\n inputConfig:\n {inputdataconfig}\n resConfig:\n {resourceconfig}")
@@ -109,8 +106,6 @@ def main():
     validation_data = pd.read_csv(os.path.join(
         validation_data_path, 'boston-housing-validation.csv'))
 
-    print(training_data)
-    print(validation_data)
 
     with open("docker_logs.txt", "a") as log_file:
         log_file.write(f"Training Data\n{training_data}\n Validation Data\n{validation_data}\n")
