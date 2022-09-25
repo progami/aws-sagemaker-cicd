@@ -122,10 +122,10 @@ def main():
     model = RandomForestRegressor(n_estimators=n_estimators)
     model.fit(X_train, y_train)
     
-    with open("docker_logs.txt", "a") as log_file:
-        log_file.write(f"Model Fitting Done \n")
+    # with open("docker_logs.txt", "a") as log_file:
+    #     log_file.write(f"Model Fitting Done \n")
 
-    s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs.txt')
+    # s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs.txt')
 
     # Evaluate model
     train_mse = mean_squared_error(model.predict(X_train), y_train)
@@ -136,7 +136,7 @@ def main():
     metrics_dataframe = pd.DataFrame(metrics_dictionary, index=[0])
 
     print(metrics_dictionary)
-    
+
     with open("docker_logs.txt", "a") as log_file:
         log_file.write(f"metricsDict:\n {metrics_dictionary} \n")
 

@@ -7,4 +7,7 @@ COPY serve.py /usr/bin/serve
 
 RUN chmod 755 /usr/bin/train /usr/bin/serve
 
+ENV PYTHONUNBUFFERED=TRUE
+ENV PYTHONDONTWRITEBYTECODE=TRUE
+
 EXPOSE 8080
