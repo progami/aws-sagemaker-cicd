@@ -121,6 +121,8 @@ def main():
     X_val, y_val = validation_data.iloc[:,
                                         1:].values, validation_data.iloc[:, :1].values
 
+    s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs.txt')
+
     # Fit the model
     n_estimators = int(hyperparameters['nestimators'])
     model = RandomForestRegressor(n_estimators=n_estimators)
@@ -135,16 +137,13 @@ def main():
     metrics_dataframe = pd.DataFrame(metrics_dictionary, index=[0])
 
     print(metrics_dictionary)
-
+    
     # Save the model
     model_path = '/opt/ml/model'
     model_path_full = os.path.join(model_path, 'model.joblib')
     joblib.dump(model, model_path_full)
 
-    with open("docker_logs.txt", "a") as log_file:
-        log_file.write(f"Metrics:\n {metrics_dictionary}")
-        
-    s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs_s3.txt')
+    
 
     update_report_file(metrics_dictionary=metrics_dictionary, hyperparameters=hyperparameters,
                        commit_hash=GITHUB_SHA, training_job_name=TRAINING_JOB_NAME, prefix=PREFIX, bucket_name=BUCKET_NAME)
