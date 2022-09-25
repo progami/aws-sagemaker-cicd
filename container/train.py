@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from cmath import log
 import os
 import joblib
 import requests
@@ -12,6 +13,13 @@ from sklearn.metrics import mean_squared_error
 import boto3
 import botocore
 
+
+# Update the Report File
+REGION = os.environ['REGION']
+PREFIX = os.environ['PREFIX']
+BUCKET_NAME = os.environ['BUCKET_NAME']
+GITHUB_SHA = os.environ['GITHUB_SHA']
+TRAINING_JOB_NAME = os.environ['TRAINING_JOB_NAME']
 
 def update_report_file(metrics_dictionary: dict, hyperparameters: dict,
                        commit_hash: str, training_job_name: str,
@@ -72,6 +80,12 @@ def update_report_file(metrics_dictionary: dict, hyperparameters: dict,
 # Define main training function
 def main():
     
+    s3_log = boto3.resource('s3')
+
+    # create log file 
+    with open("docker_logs.txt", "a") as log_file:
+        log_file.write(f"file created {datetime.now()}\n")
+
     with open('/opt/ml/input/config/hyperparameters.json', 'r') as json_file:
         hyperparameters = json.load(json_file)
         print(hyperparameters)
@@ -84,6 +98,9 @@ def main():
         resourceconfig = json.load(json_file)
     print(resourceconfig)
 
+    with open("docker_logs.txt", "a") as log_file:
+        log_file.write(f"Hyper:\n {hyperparameters}\n inputConfig:\n {inputdataconfig}\n resConfig:\n {resourceconfig}")
+
     # Load Data
     training_data_path = '/opt/ml/input/data/training'
     validation_data_path = '/opt/ml/input/data/validation'
@@ -94,6 +111,11 @@ def main():
 
     print(training_data)
     print(validation_data)
+
+    with open("docker_logs.txt", "a") as log_file:
+        log_file.write(f"Training Data\n{training_data}\n Validation Data\n{validation_data}\n")
+
+    s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs_s3.txt')
 
     X_train, y_train = training_data.iloc[:,
                                           1:].values, training_data.iloc[:, :1].values
@@ -121,12 +143,6 @@ def main():
     joblib.dump(model, model_path_full)
 
     
-    # Update the Report File
-    REGION = os.environ['REGION']
-    PREFIX = os.environ['PREFIX']
-    BUCKET_NAME = os.environ['BUCKET_NAME']
-    GITHUB_SHA = os.environ['GITHUB_SHA']
-    TRAINING_JOB_NAME = os.environ['TRAINING_JOB_NAME']
 
     update_report_file(metrics_dictionary=metrics_dictionary, hyperparameters=hyperparameters,
                        commit_hash=GITHUB_SHA, training_job_name=TRAINING_JOB_NAME, prefix=PREFIX, bucket_name=BUCKET_NAME)
