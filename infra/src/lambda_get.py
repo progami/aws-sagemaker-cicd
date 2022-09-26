@@ -8,19 +8,20 @@ ENDPOINT_NAME = "https://runtime.sagemaker.eu-central-1.amazonaws.com/endpoints/
 runtime= boto3.client('runtime.sagemaker')
 
 def lambda_handler(event, context):
-    # print("Received event: " + json.dumps(event, indent=2))
     
-    data = json.loads(json.dumps(event))
-    payload = data['data']
+    # # print("Received event: " + json.dumps(event, indent=2))
     
-    print(payload)
+    # data = json.loads(json.dumps(event))
+    # payload = data['data']
     
-    # response = runtime.invoke_endpoint(EndpointName=ENDPOINT_NAME,
-    #                                     Body=json.dumps(payload))
-    # print(response)
-    # result = json.loads(response['Body'].read().decode())
-    # print(result)
+    # print(payload)
     
-    print(payload[0][-1])
+    # # response = runtime.invoke_endpoint(EndpointName=ENDPOINT_NAME,
+    # #                                     Body=json.dumps(payload))
+    # # print(response)
+    # # result = json.loads(response['Body'].read().decode())
+    # # print(result)
+    
+    # print(payload[0][-1])
 
-    return payload[0][-1]
+    return {'statusCode': 200, 'body': json.dumps(ENDPOINT_NAME)}
