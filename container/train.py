@@ -148,6 +148,7 @@ def main():
     joblib.dump(model, model_path_full)
 
     with open("docker_logs.txt", "a") as log_file:
+        print(f"X_train: {X_train}")
         print(f"NOERROR - METRICS DICT:\n {metrics_dictionary}")
     s3_log.Bucket(BUCKET_NAME).upload_file('docker_logs.txt', f'{PREFIX}/docker_logs.txt')
 
