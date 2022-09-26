@@ -159,14 +159,6 @@ resource "aws_apigatewayv2_integration" "lambda_get_integ" {
   integration_uri               = aws_lambda_function.lambda_get.invoke_arn
 }
 
-resource "aws_apigatewayv2_route" "get_reports_from_s3" {
-  api_id                        = aws_apigatewayv2_api.lambda_get_api.id
-
-  route_key                     = "GET /results"
-  target                        = "integrations/${aws_apigatewayv2_integration.lambda_get_integ.id}"
-
-}
-
 resource "aws_apigatewayv2_route" "post_reports_from_s3" {
   api_id                        = aws_apigatewayv2_api.lambda_get_api.id
 
