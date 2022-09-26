@@ -17,6 +17,4 @@
 # Issues:
 
 1. API gateway multiple instances
-2. API gateway for get/post
-3. SNS for push to many notifications
-4. add redshift/kinesis support
+2. add redshift/kinesis support
