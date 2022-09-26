@@ -4,7 +4,7 @@ import boto3
 import json
 
 # grab environment variables
-ENDPOINT_NAME = "{SAGEMAKER ENDPOINT}"
+ENDPOINT_NAME = "https://bpuzwymbvi.execute-api.eu-central-1.amazonaws.com/"
 runtime= boto3.client('runtime.sagemaker')
 
 def lambda_handler(event, context):
