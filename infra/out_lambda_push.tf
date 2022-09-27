@@ -49,8 +49,8 @@ resource "aws_lambda_function" "lambda_push" {
   handler                     = "lambda_push.lambda_handler"
   runtime                     = "python3.9"
   timeout                     = 5
-  filename                    = "lambda_push.zip"
-  source_code_hash            = filebase64sha256("lambda_push.zip")
+  filename                    = "src/lambda_push.zip"
+  source_code_hash            = filebase64sha256("src/lambda_push.zip")
   environment {
     variables = {
       env                     = "dev"

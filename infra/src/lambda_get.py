@@ -12,7 +12,7 @@ runtime= boto3.client('runtime.sagemaker')
 
 def lambda_handler(event, context):
     
-    print(event)
+    print(event["path"])
     
     if event["path"] == POST_PATH:
 
