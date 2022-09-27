@@ -43,5 +43,3 @@ attached_predictor = attached_estimator.deploy(initial_instance_count=initial_in
                                                       "Value": "jarraramjad@gmail.com"}],
                                                wait=False)
 print(attached_predictor.endpoint_name)
-
-print(attached_predictor.predict([[22, 5.86, 0, 0.431, 6.487, 13, 7.3967, 7, 330, 19.1, 396.28, 5.9, 24.4]]))
