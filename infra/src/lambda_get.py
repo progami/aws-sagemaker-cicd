@@ -3,22 +3,34 @@ import io
 import boto3
 import json
 
+GET_PATH  = "/dev/getsage"
+POST_PATH = "/dev/results"
+
 # grab environment variables
-ENDPOINT_NAME = "https://runtime.sagemaker.eu-central-1.amazonaws.com/endpoints/boston-housing-model-2022-09-26-12-37-50-378/invocations"
+ENDPOINT_NAME = "boston-housing-model-2022-09-26-12-37-50-378"
 runtime= boto3.client('runtime.sagemaker')
 
 def lambda_handler(event, context):
-    print("Received event: " + json.dumps(event, indent=2))
     
-    data = json.loads(json.dumps(event))
-    payload = data['data']
-    print(payload)
+    print(event)
     
-    response = runtime.invoke_endpoint(EndpointName=ENDPOINT_NAME,
-                                       Body=json.dumps(payload))
-    print(response)
-    result = json.loads(response['Body'].read().decode())
-    print(result)
+    if event["path"] == POST_PATH:
+
+        event = event['queryStringParameters']
     
-    return result[0]
-    # return {'statusCode': 200, 'body': json.dumps(ENDPOINT_NAME)}
+        data = json.loads(json.dumps(event))
+        payload = data['data']
+        
+        print('payload:\n', payload)
+                
+        response = runtime.invoke_endpoint(EndpointName=ENDPOINT_NAME,
+                                           Body=payload,
+                                           ContentType = 'text/csv')
+        
+        result = json.loads(response['Body'].read().decode())
+        
+        result = 'Predicted Block According to Features is: ' + str(round(result))
+        return {'statusCode': 200, 'body': json.dumps(result)}
+    
+    elif event["path"] == GET_PATH:
+        return {'statusCode': 200, 'body': json.dumps(ENDPOINT_NAME)}
