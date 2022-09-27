@@ -145,4 +145,4 @@ cython_debug/
 .terraform
 terraform.tfstate.backup
 
-local_test.py
+test.py

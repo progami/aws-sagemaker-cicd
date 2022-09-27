@@ -1,5 +1,5 @@
 resource "aws_iam_role" "lambda_get_exec" {
-  name = "lambda_get"
+  name = "lambda_get_role_tf"
 
   assume_role_policy = <<POLICY
 {
@@ -17,13 +17,17 @@ resource "aws_iam_role" "lambda_get_exec" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_get_policy" {
+resource "aws_iam_role_policy_attachment" "lambda_get_policy_exec" {
   role       = aws_iam_role.lambda_get_exec.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-# Creating Lambda resource for get function - API Gateway
+resource "aws_iam_role_policy_attachment" "lambda_get_policy_sage" {
+  role       = aws_iam_role.lambda_get_exec.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
+}
 
+# Creating Lambda resource for get function - API Gateway
 resource "aws_lambda_function" "lambda_get" {
   function_name               = "lambda_get"
   role                        = aws_iam_role.lambda_get_exec.arn

@@ -18,3 +18,4 @@
 
 1. API gateway multiple instances
 2. add redshift/kinesis support
+3. on predict serve.py is called
