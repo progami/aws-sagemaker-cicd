@@ -67,16 +67,20 @@ jobs:
     #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     #     AWS_REGION: 'eu-central-1'    # optional: defaults to us-east-1
     #     SOURCE_DIR: 's3/'              # optional: defaults to entire repository
-    
+
     - name: Ingest data from DynamoDB#1
       uses: gagoar/invoke-aws-lambda@master
       with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           FunctionName: lambda_in_dynamodb
           Payload: '{"TABLE_NAME": "dynamo-boston-validation", "OUTPUT_BUCKET": "123124-zepto-s3-bucket/boston-housing/" , "OUTPUT_KEY": "boston-validation-from-dynamo.csv"}'
 
     - name: Ingest data from DynamoDB#2
       uses: gagoar/invoke-aws-lambda@master
       with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           FunctionName: lambda_in_dynamodb
           Payload: '{"TABLE_NAME": "dynamo-boston-training", "OUTPUT_BUCKET": "123124-zepto-s3-bucket/boston-housing/","OUTPUT_KEY":"boston-training-from-dynamo.csv"}'
 
