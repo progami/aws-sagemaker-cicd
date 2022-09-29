@@ -25,18 +25,24 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-central-1
-
+    
     - name: lambda#1 zipping
       uses: vimtor/action-zip@v1
       with:
         files: infra/src/lambda_get.py
-        dest: lambda_get.zip
+        dest: infra/src/lambda_get.zip
         
     - name: lambda#2 zipping
       uses: vimtor/action-zip@v1
       with:
         files: infra/src/lambda_push.py
-        dest: lambda_push.zip
+        dest: infra/src/lambda_push.zip
+
+    - name: lambda#3 zipping
+      uses: vimtor/action-zip@v1
+      with:
+        files: infra/src/lambda_in_dynamodb.py
+        dest: infra/src/lambda_in_dynamodb.zip
 
     # Install the latest version of Terraform CLI
     - name: Setup Terraform
@@ -51,16 +57,29 @@ jobs:
     - name: Terraform Apply
       run: cd infra && terraform apply -input=false -compact-warnings -auto-approve
 
-    - name: Sync S3
-      uses: jakejarvis/s3-sync-action@master
+    # - name: Sync S3
+    #   uses: jakejarvis/s3-sync-action@master
+    #   with:
+    #     args: --acl public-read --follow-symlinks --delete
+    #   env:
+    #     AWS_S3_BUCKET: ${{ format('{0}/{1}', secrets.BUCKET_NAME, secrets.PREFIX) }}
+    #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     AWS_REGION: 'eu-central-1'    # optional: defaults to us-east-1
+    #     SOURCE_DIR: 's3/'              # optional: defaults to entire repository
+    
+    - name: Ingest data from DynamoDB#1
+      uses: gagoar/invoke-aws-lambda@master
       with:
-        args: --acl public-read --follow-symlinks --delete
-      env:
-        AWS_S3_BUCKET: ${{ format('{0}/{1}', secrets.BUCKET_NAME, secrets.PREFIX) }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: 'eu-central-1'    # optional: defaults to us-east-1
-        SOURCE_DIR: 's3/'              # optional: defaults to entire repository
+          FunctionName: lambda_in_dynamodb
+          Payload: '{"TABLE_NAME": "dynamo-boston-validation", "OUTPUT_BUCKET": "123124-zepto-s3-bucket/boston-housing/" , "OUTPUT_KEY": "boston-validation-from-dynamo.csv"}'
+
+    - name: Ingest data from DynamoDB#2
+      uses: gagoar/invoke-aws-lambda@master
+      with:
+          FunctionName: lambda_in_dynamodb
+          Payload: '{"TABLE_NAME": "dynamo-boston-training", "OUTPUT_BUCKET": "123124-zepto-s3-bucket/boston-housing/","OUTPUT_KEY":"boston-training-from-dynamo.csv"}'
+
 
   build_image_push_to_ECR:
     needs: build-infra-terraform

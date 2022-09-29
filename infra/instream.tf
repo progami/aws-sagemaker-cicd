@@ -30,7 +30,7 @@ resource "aws_iam_role_policy" "lambda_in_dynamodb_policy" {
     {
       "Action": [
         "s3:*",
-        "dynamodb:*",
+        "dynamodb:*"
       ],
       "Effect": "Allow",
       "Resource": "*"
@@ -50,15 +50,7 @@ resource "aws_lambda_function" "lambda_in_dynamodb" {
   timeout                     = 5
   filename                    = "src/lambda_in_dynamodb.zip"
   source_code_hash            = filebase64sha256("src/lambda_in_dynamodb.zip")
-  environment {
-    variables = {
-      env                     = "dev"
-      SENDER_EMAIL            = "jarraramjad@gmail.com"
-      RECEIVER_EMAIL          = "jarraramjad@gmail.com"
-      region                  = var.aws_region
-      SNS_ARN                 = aws_sns_topic.topic.arn
-    }
-  }
+
 }
 
 
