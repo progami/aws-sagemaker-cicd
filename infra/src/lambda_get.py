@@ -7,7 +7,7 @@ GET_PATH  = "/dev/getsage"
 POST_PATH = "/dev/results"
 
 # grab environment variables
-ENDPOINT_NAME = "boston-housing-model-2022-09-26-12-37-50-378"
+ENDPOINT_NAME = "boston-housing-model-2022-09-29-15-34-43-267"
 runtime= boto3.client('runtime.sagemaker')
 
 def lambda_handler(event, context):
