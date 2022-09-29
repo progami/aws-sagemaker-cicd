@@ -84,7 +84,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           FunctionName: lambda_in_dynamodb
-          Payload: '{"TABLE_NAME": "dynamo-boston-training", "OUTPUT_BUCKET": "123124-zepto-s3-bucket","OUTPUT_KEY":"boston-housing/boston-training-from-dynamo.csv"}'
+          Payload: '{"TABLE_NAME": "dynamo-boston-training", "OUTPUT_BUCKET": "123124-zepto-s3-bucket","OUTPUT_KEY":"boston-housing/boston-housing-training.csv"}'
 
 
   build_image_push_to_ECR:

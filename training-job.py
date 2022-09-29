@@ -26,9 +26,9 @@ ACCOUNT_ID = session.boto_session.client(
 training_instance = 'ml.m5.large'
 
 # Replace with your data s3 path
-training_data_s3_uri = 's3://{}/{}/boston-housing-training.csv'.format(
+training_data_s3_uri = 's3://{}/{}/boston-training-from-dynamo.csv'.format(
     BUCKET_NAME, PREFIX)
-validation_data_s3_uri = 's3://{}/{}/boston-housing-validation.csv'.format(
+validation_data_s3_uri = 's3://{}/{}/boston-validation-from-dynamo.csv'.format(
     BUCKET_NAME, PREFIX)
 
 
