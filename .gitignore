@@ -148,3 +148,4 @@ terraform.tfstate.backup
 test.py
 
 s3/
+s3

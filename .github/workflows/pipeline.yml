@@ -136,4 +136,4 @@ jobs:
         pip install --no-cache-dir --upgrade awscli pandas boto3 sagemaker requests fsspec s3fs tabulate
         python training-job.py
         cat details.txt >> report.md
-        cml-send-comment report.md 
+        cml-send-comment report.md
