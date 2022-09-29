@@ -102,9 +102,9 @@ def main():
     training_data_path = '/opt/ml/input/data/training'
     validation_data_path = '/opt/ml/input/data/validation'
     training_data = pd.read_csv(os.path.join(
-        training_data_path, 'boston-housing-training.csv'))
+        training_data_path, 'boston-training-from-dynamo.csv'))
     validation_data = pd.read_csv(os.path.join(
-        validation_data_path, 'boston-housing-validation.csv'))
+        validation_data_path, 'boston-validation-from-dynamo.csv.csv'))
 
 
     with open("docker_logs.txt", "a") as log_file:
