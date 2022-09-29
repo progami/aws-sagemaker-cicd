@@ -75,7 +75,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           FunctionName: lambda_in_dynamodb
-          Payload: '{"TABLE_NAME": "dynamo-boston-validation", "OUTPUT_BUCKET": "123124-zepto-s3-bucket" , "OUTPUT_KEY": "boston-housing/boston-validation-from-dynamo.csv"}'
+          Payload: '{"TABLE_NAME": "dynamo-boston-validation", "OUTPUT_BUCKET": "123124-zepto-s3-bucket" , "OUTPUT_KEY": "boston-housing/boston-housing-validation.csv"}'
 
     - name: Ingest data from DynamoDB#2
       uses: gagoar/invoke-aws-lambda@master
